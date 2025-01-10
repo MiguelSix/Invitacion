@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celebración Musical</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #D4AF37;
+            --secondary-color: #FFD700;
+            --dark-gold: #B8860B;
+            --light-gold: #FFF8DC;
+            --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #B8860B 100%);
+        }
+
+        body {
+            background-color: #000;
+            color: var(--dark-gold);
+            font-family: 'Times New Roman', serif;
+        }
+
+        .musical-note {
+            position: fixed;
+            font-size: 24px;
+            color: var(--primary-color);
+            pointer-events: none;
+            animation: floatNote 6s linear infinite;
+            opacity: 0;
+            z-index: 1000;
+        }
+
+        @keyframes floatNote {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .parallax-header {
+            background-image: url('corona.png');
+            height: 100vh;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .parallax-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.8) 0%, rgba(184, 134, 11, 0.8) 100%);
+        }
+
+        .header-content {
+            color: #FFF;
+            text-align: center;
+            z-index: 1;
+            padding: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .golden-border {
+            border: 2px solid var(--primary-color);
+            position: relative;
+            padding: 20px;
+            margin: 10px;
+        }
+
+        .golden-border::before {
+            content: '♪';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #000;
+            padding: 0 10px;
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+
+        .section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #000 0%, #111 100%);
+        }
+
+        .profile-img {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 2rem auto;
+            display: block;
+            box-shadow: 0 0 30px var(--primary-color);
+            border: 5px solid var(--primary-color);
+        }
+
+        .details-card {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 0 20px var(--primary-color);
+            margin: 1rem 0;
+            transition: all 0.3s ease;
+            border: 1px solid var(--primary-color);
+        }
+
+        .details-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 30px var(--secondary-color);
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: #000;
+            font-size: 2rem;
+            box-shadow: 0 0 15px var(--primary-color);
+        }
+
+        .confirm-btn {
+            background: var(--gradient-gold);
+            color: #000;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 0 20px var(--primary-color);
+        }
+
+        .confirm-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px var(--secondary-color);
+            color: #000;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid var(--primary-color);
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px var(--primary-color);
+        }
+
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 50px;
+            box-shadow: 0 0 20px var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid var(--primary-color);
+        }
+
+        .music-player button {
+            background: var(--gradient-gold);
+            color: #000;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .music-player button:hover {
+            transform: scale(1.1);
+        }
+
+        .music-player span {
+            color: var(--primary-color);
+        }
+
+        .venue-title {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .welcome-text {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            line-height: 1.8;
+            text-align: center;
+        }
+		.countdown {
+            font-family: 'Playfair Display', serif;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            border: 2px solid var(--primary-color);
+        }
+
+        .countdown h3 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .countdown-number {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-shadow: 0 0 10px var(--primary-color);
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .countdown div div {
+            font-size: 1rem;
+            color: var(--light-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #countdown {
+            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 100%);
+            padding: 1.5rem 1rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px var(--primary-color);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .countdown-item {
+            margin: 0 1rem;
+            min-width: 100px;
+        }
+
+        /* Media queries para responsividad */
+        @media (max-width: 768px) {
+            .countdown {
+                padding: 1rem;
+                margin: 1.5rem 0;
+            }
+
+            .countdown h3 {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .countdown-number {
+                font-size: 2rem;
+            }
+
+            .countdown div div {
+                font-size: 0.9rem;
+            }
+
+            .countdown-item {
+                margin: 0 0.5rem;
+                min-width: 80px;
+            }
+
+            #countdown {
+                padding: 1rem 0.5rem;
+                gap: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .countdown-number {
+                font-size: 1.8rem;
+            }
+
+            .countdown-item {
+                margin: 0 0.3rem;
+                min-width: 70px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div id="notes-container"></div>
+    
+    <div class="parallax-header">
+        <div class="header-content">
+            <h1 class="display-3 fw-bold mb-4" data-aos="fade-down">
+                 ¡Estás invitado a mi fiesta! 
+            </h1>
+            <p class="lead fs-2" data-aos="fade-up">Una velada llena de emociones</p>
+        </div>
+    </div>
+
+    <div class="music-player">
+        <button id="playPause" onclick="togglePlay()">▶️</button>
+        <span id="songTitle">Música clásica</span>
+        <audio id="bgMusic" loop>
+            <source id="audioSource" src="" type="audio/mp3">
+        </audio>
+    </div>
+
+     <section class="section bg-light">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <img src="aurora.jpg" alt="Cumpleañera" class="profile-img">
+                <p class="welcome-text mt-4 fs-3">
+                    ¡Estoy celebrando un año más de vida, y nada me haría más feliz que compartirlo contigo! 🌟
+                </p>
+                <div class="countdown" data-aos="fade-up">
+					<h3 class="mb-3">Faltan:</h3>
+					<div id="countdown">
+						<div class="countdown-item text-center">
+							<span id="days" class="countdown-number">00</span>
+							<div>Días</div>
+						</div>
+						<div class="countdown-item text-center">
+							<span id="hours" class="countdown-number">00</span>
+							<div>Horas</div>
+						</div>
+						<div class="countdown-item text-center">
+							<span id="minutes" class="countdown-number">00</span>
+							<div>Minutos</div>
+						</div>
+						<div class="countdown-item text-center">
+							<span id="seconds" class="countdown-number">00</span>
+							<div>Segundos</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-right">
+                    <div class="details-card text-center">
+                        <div class="icon-circle">📅</div>
+                        <h3>Fecha</h3>
+                        <p>Sábado, 25 de enero de 2025</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up">
+                    <div class="details-card text-center">
+                        <div class="icon-circle">🕗</div>
+                        <h3>Hora</h3>
+                        <p>5:00 PM</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-left">
+                    <div class="details-card text-center">
+                        <div class="icon-circle">📍</div>
+                        <h3>Lugar</h3>
+                        <p>Salón Rincón del Cimatario</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="venue-section">
+        <div class="container">
+			<br>
+            <h2 class="venue-title" data-aos="fade-up">Nuestro Hermoso Lugar de Celebración</h2>
+            <div class="row mb-5">
+                <div class="col-md-4" data-aos="fade-up">
+                    <img src="salon1.jpg" alt="Salón 1" class="gallery-img">
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <img src="salon2.jpg" alt="Salón 2" class="gallery-img">
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <img src="salon3.jpg" alt="Salón 3" class="gallery-img">
+                </div>
+            </div>
+            <div class="map-container" data-aos="fade-up">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3735.9603976260537!2d-100.3849065!3d20.548801199999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d344fa18b6bd2b%3A0xacc2652583a221b0!2sSALON%20RINCON%20DEL%20CIMATARIO!5e0!3m2!1ses-419!2smx!4v1735957516537!5m2!1ses-419!2smx"
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+   
+
+    <section class="section text-center">
+        <div class="container">
+            <h2 class="mb-4" data-aos="fade-up">Confirma tu asistencia</h2>
+            <p class="mb-4" data-aos="fade-up">Por favor, confirma antes del 15 de enero</p>
+			<br>
+            <a href="https://wa.me/524424347307?text=¡Confirmo mi asistencia a la fiesta!" 
+               class="confirm-btn" 
+               data-aos="zoom-in">
+                Confirmar por WhatsApp
+            </a>
+        </div>
+    </section>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Inicializar AOS
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 1000,
+                once: true
+            });
+
+            // Crear notas musicales flotantes
+            const notes = ['♪', '♫', '♩', '♬', '♭', '♮'];
+            const container = document.getElementById('notes-container');
+
+            function createNote() {
+                const note = document.createElement('div');
+                note.className = 'musical-note';
+                note.textContent = notes[Math.floor(Math.random() * notes.length)];
+                note.style.left = Math.random() * window.innerWidth + 'px';
+                container.appendChild(note);
+
+                note.addEventListener('animationend', function() {
+                    note.remove();
+                });
+            }
+
+            // Crear notas cada 2 segundos
+            setInterval(createNote, 2000);
+        });
+
+         // Control de música
+        let isPlaying = false;
+        const audio = document.getElementById('bgMusic');
+        const playPauseBtn = document.getElementById('playPause');
+        const audioSource = document.getElementById('audioSource');
+        const songTitle = document.getElementById('songTitle');
+
+        // Array de canciones disponibles
+        const songs = [
+            { src: 'cancionTia.mp3', title: 'Canción 1' },
+            { src: 'cancionTia2.mp3', title: 'Canción 2' }
+        ];
+
+        // Función para seleccionar canción aleatoria
+        function selectRandomSong() {
+            const randomIndex = Math.floor(Math.random() * songs.length);
+            const selectedSong = songs[randomIndex];
+            audioSource.src = selectedSong.src;
+            songTitle.textContent = selectedSong.title;
+            audio.load(); // Recargar el audio con la nueva fuente
+        }
+
+        // Seleccionar canción aleatoria al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            selectRandomSong();
+            // ... resto de la inicialización de AOS y notas musicales ...
+        });
+
+        function togglePlay() {
+            if (isPlaying) {
+                audio.pause();
+                playPauseBtn.textContent = '▶️';
+            } else {
+                audio.play();
+                playPauseBtn.textContent = '⏸️';
+            }
+            isPlaying = !isPlaying;
+        }
+		// Función de cuenta regresiva
+		function updateCountdown() {
+			const targetDate = new Date('January 25, 2025 20:00:00').getTime();
+			const now = new Date().getTime();
+			const timeLeft = targetDate - now;
+
+			const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+			const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+			const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+			document.getElementById('days').innerText = String(days).padStart(2, '0');
+			document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+			document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+			document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+
+			if (timeLeft < 0) {
+				clearInterval(countdownInterval);
+				document.getElementById('countdown').innerHTML = '<h3>¡El evento ha comenzado!</h3>';
+			}
+		}
+
+		// Actualizar cada segundo
+		const countdownInterval = setInterval(updateCountdown, 1000);
+		// Ejecutar inmediatamente para evitar el delay inicial
+		updateCountdown();
+    </script>
+	
+</body>
+</html>
