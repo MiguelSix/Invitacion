@@ -55,7 +55,7 @@
             background-attachment: fixed;
             background-position: center;
             background-repeat: no-repeat;
-            background-size: cover;
+            background-size: contain;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -277,7 +277,26 @@
             margin: 0 1rem;
             min-width: 100px;
         }
-
+		/* Media query para dispositivos móviles */
+		@media (max-width: 768px) {
+			.parallax-header {
+				background-attachment: scroll; /* Deshabilitar parallax en móviles */
+				background-position: center center;
+				background-size: cover; /* Usar cover en móviles */
+				height: 60vh; /* Reducir altura en móviles */
+			}
+			
+			.header-content {
+				padding: 1rem; /* Reducir padding en móviles */
+			}
+			
+			.header-content h1 {
+				font-size: 2rem; /* Ajustar tamaño de título */
+			}
+			
+			.header-content p {
+				font-size: 1.2rem; /* Ajustar tamaño de subtítulo */
+			}
         /* Media queries para responsividad */
         @media (max-width: 768px) {
             .countdown {
